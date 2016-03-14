@@ -1,0 +1,13 @@
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\bin\Debug\Management.exe
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\bin\Debug\Management.pdb
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\obj\Debug\Management.csprojResolveAssemblyReference.cache
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\obj\Debug\Management.Properties.Resources.resources
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\obj\Debug\Management.csproj.GenerateResource.Cache
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\obj\Debug\Management.exe
+c:\users\farid\documents\visual studio 2015\Projects\Management\Management\obj\Debug\Management.pdb
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\Debug\Management.Form_Master.resources
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\Debug\Management.Form_TambahModal.resources
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\Debug\Management.Form_Users.resources
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\Debug\Management.MemberDetail.resources
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\Debug\Management.Penarikan.resources
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\Debug\Management.SettingPenarikan.resources
