@@ -24,3 +24,8 @@ C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\obj\
 C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.SettingPenarikan.resources
 C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.SettingPenarikan.resources
 C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.csprojResolveAssemblyReference.cache
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.TrustInfo.xml
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\bin\x86\Debug\Management.exe.manifest
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\bin\x86\Debug\Management.application
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.exe.manifest
+C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.application

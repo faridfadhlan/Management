@@ -10,6 +10,7 @@ namespace Management
         private string id;
         private string kredit;
         private string debet;
+        private string sisa_tarik;
         private string balance;
         private string input_date;
         private string member_id;
@@ -91,6 +92,54 @@ namespace Management
                 balance = value;
             }
         }
+
+        public string Sisa_tarik
+        {
+            get
+            {
+                return sisa_tarik;
+            }
+
+            set
+            {
+                sisa_tarik = value;
+            }
+        }
+
+        public bool Save()
+        {
+            string query;
+            if (this.Id == null)
+                query = "INSERT INTO transaksi_balance(kredit, debet, sisa_tarik, balance, input_date, member_id) VALUES ('" + this.Kredit + "','" + this.Debet + "','" + this.Sisa_tarik + "','" + this.Balance + "',#" + this.Input_date + "#,'" + this.Member_id + "')";
+            else
+                query = "UPDATE transaksi_balance SET kredit='"+this.Kredit+"', debet='"+this.Debet+"', sisa_tarik='"+this.Sisa_tarik+"', balance='"+this.Balance+"', input_date=#"+this.Input_date+"# WHERE ID=" + this.Id;
+            return (new MyDB()).QueryNonSelect(query);
+        }
+
+        public bool Delete()
+        {
+            return (new MyDB()).QueryNonSelect("DELETE FROM transaksi_balance WHERE ID="+this.Id);
+        }
+
+        public Transaksi Find(string id)
+        {
+            Transaksi tr = new Transaksi();
+            List<String[]> data = new List<String[]>();
+            data = (new MyDB()).Select("SELECT * FROM transaksi_balance WHERE ID=" + id);
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                tr.Id = id;
+                tr.Kredit = data[i][1];
+                tr.Debet = data[i][2];
+                tr.Sisa_tarik = data[i][3];
+                tr.Balance = data[i][4];
+                tr.Input_date = data[i][5];
+                tr.Member_id = data[i][6];
+            }
+
+            return tr;
+        } 
 
         public bool GenerateKredit()
         {

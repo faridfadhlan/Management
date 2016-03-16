@@ -13,7 +13,6 @@ namespace Management
 {
     public partial class Form_Master : Form
     {
-        MyDB db;
         DataTable dtable;
 
         public Form_Master()
@@ -30,12 +29,9 @@ namespace Management
 
         public void LoadData()
         {
-            //List<Members> mb = new List<Members>();
-            //MessageBox.Show(db.Select("SELECT * FROM members")[0][1]);
             try
             {
-                db = new MyDB();
-                dtable = db.GetData("SELECT a.*,b.balance FROM members a LEFT JOIN (SELECT balance,member_id FROM transaksi_balance WHERE ID IN (SELECT max(ID) FROM transaksi_balance GROUP BY member_id)) b ON a.id=b.member_id");
+                dtable = (new MyDB()).GetDataTable("SELECT a.*,b.balance FROM members a LEFT JOIN (SELECT balance,member_id FROM transaksi_balance WHERE ID IN (SELECT max(ID) FROM transaksi_balance GROUP BY member_id)) b ON a.id=b.member_id");
                 this.dataGridView1.DataSource = dtable;
                 this.dataGridView1.Columns[1].HeaderText = "Nama Lengkap";
                 this.dataGridView1.Columns[2].HeaderText = "Alamat";
@@ -50,7 +46,7 @@ namespace Management
                 this.dataGridView1.Columns[6].DefaultCellStyle.Format = "N2";
                 this.dataGridView1.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 this.dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                //MessageBox.Show((dtable.Rows.Count).ToString());
+                
             }
             catch (Exception ex)
             {
@@ -67,24 +63,21 @@ namespace Management
 
         private void btn_delete_Click(object sender, EventArgs e)
         {
-            int i = dataGridView1.SelectedRows.Count;
-            string[] ids = new String[i];
-            //MessageBox.Show(i.ToString());
-            for(int j=0;j< i;j++)
+            for(int j=0;j< dataGridView1.SelectedRows.Count; j++)
             {
-                ids[j] = dataGridView1.SelectedRows[j].Cells[0].Value.ToString();
+                Members mb = new Members();
+                mb.Id = dataGridView1.SelectedRows[j].Cells[0].Value.ToString();
+                mb.Delete();
             }
-            db = new MyDB();
-            db.DeleteUsers(ids);
             LoadData();
         }
         
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //MessageBox.Show(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-            string member_id = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-            MemberDetail detail = new MemberDetail(this,member_id);
+            MemberDetail detail = new MemberDetail(this);
+            detail.member_id = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+            detail.Init();
             detail.Show();
         }
 
@@ -98,9 +91,11 @@ namespace Management
         {
             string member_id = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
             Form_Users fuser = new Form_Users(this);
-            fuser.mb = db.GetMember(member_id);
+            fuser.mb = (new Members()).Find(member_id);
             fuser.populate();
             fuser.Show();
         }
+
+        
     }
 }

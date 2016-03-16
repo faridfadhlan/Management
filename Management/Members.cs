@@ -17,7 +17,7 @@ namespace Management
         private string join_date;
         private string join_type;
         private string balance;
-        private MyDB db;
+        private MyDB db = new MyDB();
 
         public string Nama
         {
@@ -110,7 +110,27 @@ namespace Management
             }
         }
 
-        public Members FindMember(string id)
+        public bool Save()
+        {
+            string query;
+            if(this.Id != null)
+            {
+                query = "UPDATE members SET nama='"+this.Nama+"',alamat='"+this.Alamat+"',no_hp='"+this.No_hp+"',join_date=#"+this.Join_date+"#,join_type='"+this.Join_type+"' WHERE ID=" + this.Id;
+            }
+            else
+            {
+                query = "INSERT INTO members(nama, alamat, no_hp, join_date, join_type) VALUES ('" + this.Nama + "','" + this.Alamat + "','" + this.No_hp + "',#" + this.Join_date + "#,'" + this.Join_type + "')";
+            }
+            
+            return (new MyDB()).QueryNonSelect(query);
+        }
+
+        public bool Delete()
+        {
+            return (new MyDB()).QueryNonSelect("DELETE FROM members WHERE ID=" + this.Id);
+        }
+
+        public Members Find(string id)
         {
             Members mb = new Members();
             List<String[]> data = new List<String[]>();
@@ -160,6 +180,26 @@ namespace Management
                 mbs.Add(mb);
             }
             return mbs;
+        }
+        
+        public string GetBalance(string member_id)
+        {
+            string s = "0";
+            List<String[]> data = (new MyDB()).Select(
+                "SELECT balance FROM transaksi_balance WHERE ID IN (SELECT MAX(ID) FROM transaksi_balance WHERE member_id=" + member_id + ") "
+                );
+            if (data.Count > 0) s = data.ElementAt(0)[0];
+            return s;
+        }
+
+        public string GetSisaPenarikan(string member_id)
+        {
+            string sisa = "0";
+            List<String[]> data = (new MyDB()).Select(
+                "SELECT sisa_tarik FROM transaksi_balance WHERE ID IN (SELECT MAX(ID) FROM transaksi_balance WHERE member_id=" + member_id + ") "
+                );
+            if (data.Count > 0) sisa = data.ElementAt(0)[0];
+            return sisa;
         }
     }
 }

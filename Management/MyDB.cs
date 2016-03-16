@@ -15,8 +15,9 @@ namespace Management
         private OleDbDataAdapter db_adapter;
         private DataTable db_datatable;
         public MyDB db = null;
-        private string str_koneksi = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Admini\\Documents\\Visual Studio 2015\\Projects\\Management\\management.accdb";
-        
+        //private string dbPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"management.accdb");
+        private string str_koneksi = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "management.accdb");
+
         public MyDB()
         {
             try
@@ -41,7 +42,7 @@ namespace Management
 
         
 
-        public DataTable GetData(string query)
+        public DataTable GetDataTable(string query)
         {
             db_datatable = new DataTable();
             try
@@ -51,7 +52,6 @@ namespace Management
                 db_perintah.Connection = db_koneksi;
                 db_perintah.CommandType = CommandType.Text;
                 db_perintah.CommandText = query;
-                //MessageBox.Show(query);
                 db_adapter = new OleDbDataAdapter(db_perintah);                
                 db_adapter.Fill(db_datatable);
                 db_koneksi.Close();                
@@ -65,7 +65,7 @@ namespace Management
 
         public List<String[]> Select(string query)
         {
-            InitObject();
+            //InitObject();
             List<String[]> data = new List<String[]>(); 
             OleDbDataReader reader = null;
             try
@@ -86,7 +86,6 @@ namespace Management
                     }
                     data.Add(datarow);
                 }
-                //MessageBox.Show(data[0][0]);
                 reader.Close();
                 db_koneksi.Close();
             }
@@ -95,6 +94,36 @@ namespace Management
                 MessageBox.Show(e.ToString());
             }
             return data;
+        }
+
+        public bool QueryNonSelect(string query)
+        {
+            InitObject();
+            bool sukses = false;
+            try
+            {
+                db_koneksi.Open();
+                db_perintah = new OleDbCommand();
+                db_perintah.Connection = db_koneksi;
+                db_perintah.CommandType = CommandType.Text;
+                db_perintah.CommandText = query;
+                try
+                {
+                    db_perintah.ExecuteNonQuery();
+                    sukses = true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+
+                db_koneksi.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return sukses;
         }
 
         public ArrayList[] GetMemberTidakTarik()

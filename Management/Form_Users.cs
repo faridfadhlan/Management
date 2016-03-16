@@ -32,7 +32,6 @@ namespace Management
                 this.txt_alamat.Text = mb.Alamat;
                 this.txt_no_hp.Text = mb.No_hp;
                 this.cbx_join.Text = mb.Join_type;
-                //MessageBox.Show(mb.Join_date);
                 this.dpicker_join.Value = DateTime.Parse(mb.Join_date);
             }
         }
@@ -51,17 +50,8 @@ namespace Management
             member.No_hp = txt_no_hp.Text;
             member.Alamat = txt_alamat.Text;
             member.Join_type = cbx_join.Text;
-            member.Join_date = "#" + DateTime.Parse(dpicker_join.Text).ToString("yyyy-MM-dd") + "#";
-            
-            if (mb != null)
-            {
-                users.UpdateMember(member);
-            }
-            else
-            {
-                users.InsertUsers(member);
-            }
-            
+            member.Join_date = DateTime.Parse(dpicker_join.Text).ToString("yyyy-MM-dd");
+            member.Save();
             this.pengguna.LoadData();
             this.Close();
         }

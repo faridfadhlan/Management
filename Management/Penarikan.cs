@@ -13,32 +13,40 @@ namespace Management
     {
         public MemberDetail memberdetail;
         public Form_Master f_master;
-        public string member_id;
-        public Members member;
-        public MyDB db = new MyDB();
+        public Transaksi tr = new Transaksi();
 
-        public Penarikan(Form_Master f_master, MemberDetail memberdetail, Members member, string sisa)
+        public Penarikan(Form_Master f_master, MemberDetail memberdetail)
         {
             InitializeComponent();
             this.memberdetail = memberdetail;
             this.f_master = f_master;
-
-            this.member = member;
             DateTime sekarang = DateTime.Now;
-            this.lbl_nama.Text = member.Nama;
-            this.lbl_sisa.Text = sisa;
+            this.lbl_nama.Text = this.memberdetail.member.Nama;
+            this.lbl_sisa.Text = Convert.ToDouble(this.memberdetail.member.GetSisaPenarikan(memberdetail.member.Id)).ToString();// "C", new System.Globalization.CultureInfo("id-ID"));
             this.lbl_bulan.Text = sekarang.ToString("MMM");
+        }
+
+        public void PopulateData()
+        {
+            if(tr != null)
+            {
+                this.txt_penarikan.Text = this.tr.Debet;
+                this.dpicker_tarik.Value = DateTime.Parse(this.tr.Input_date);
+                this.lbl_bulan.Text = DateTime.Parse(this.tr.Input_date).ToString("MMM");
+                this.lbl_sisa.Text = (Convert.ToDouble(this.tr.Sisa_tarik)+ Convert.ToDouble(this.tr.Debet)).ToString();// "C", new System.Globalization.CultureInfo("id-ID"));
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] tr_balance = new String[5];
-            tr_balance[0] = "0";
-            tr_balance[1] = txt_penarikan.Text;
-            tr_balance[2] = db.GetBalance(this.member.Id);
-            tr_balance[3] = "#" + DateTime.Parse(dpicker_tarik.Text).ToString("yyyy-MM-dd") + "#";
-            tr_balance[4] = this.member.Id;
-            db.InsertTransaksi(tr_balance);
+            
+            tr.Kredit = "0";
+            tr.Debet = txt_penarikan.Text;
+            tr.Sisa_tarik = (Convert.ToDouble(this.lbl_sisa.Text)-Convert.ToDouble(tr.Debet)).ToString();
+            tr.Balance = memberdetail.member.GetBalance(memberdetail.member.Id);
+            tr.Input_date = DateTime.Parse(dpicker_tarik.Text).ToString("yyyy-MM-dd");
+            tr.Member_id = memberdetail.member.Id;
+            tr.Save();
             memberdetail.LoadData();
             f_master.LoadData();
             this.Dispose();

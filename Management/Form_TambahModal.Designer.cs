@@ -142,6 +142,7 @@
             this.txt_modal.Name = "txt_modal";
             this.txt_modal.Size = new System.Drawing.Size(247, 20);
             this.txt_modal.TabIndex = 2;
+            this.txt_modal.Leave += new System.EventHandler(this.masked_event);
             // 
             // lbl_balance
             // 

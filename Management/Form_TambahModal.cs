@@ -12,53 +12,56 @@ namespace Management
 {
     public partial class Form_TambahModal : Form
     {
-        private Members membersa;
-        private string member_id;
-        private MemberDetail fm;
+        private Members mb;
+        private MemberDetail f_detail;
         private string balance;
         public Form_Master f_master;
-        public Transaksi tr = null;
+        public Transaksi tr = new Transaksi();
 
-        public Form_TambahModal(Form_Master f_master, MemberDetail fm, string member_id)
+        public Form_TambahModal(Form_Master f_master, MemberDetail f_detail)
         {
             InitializeComponent();
             this.f_master = f_master;
-            this.fm = fm;
-            this.member_id = member_id;
-            MyDB members = new MyDB();
-            membersa = members.GetMember(member_id);
-            this.lbl_nama.Text = membersa.Nama;
-            balance = members.GetBalance(member_id);
-            if (balance == null) balance = "0";
-            this.lbl_balance.Text = Convert.ToDouble(balance).ToString("C", new System.Globalization.CultureInfo("id-ID"));
+            this.f_detail = f_detail;
+            mb = (new Members()).Find(f_detail.member_id);
+            this.lbl_nama.Text = mb.Nama;
+            //this.txt_modal.
+            this.balance = mb.GetBalance(mb.Id);
+            this.lbl_balance.Text = Convert.ToDouble(this.balance).ToString("C", new System.Globalization.CultureInfo("id-ID"));
         }
 
         public void PopulateData()
         {
             if(tr != null)
             {
+                this.balance = this.tr.Balance;
                 this.txt_modal.Text = tr.Kredit;
                 this.dpicker_tambah.Value = DateTime.Parse(tr.Input_date);
+                this.lbl_balance.Text = (Convert.ToDouble(balance) - Convert.ToDouble(tr.Kredit)).ToString("C", new System.Globalization.CultureInfo("id-ID"));
             }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] tr_balance = new String[5];
-            MyDB db = new MyDB();
-            Transaksi tr1 = new Transaksi();
-
-            tr1.Kredit = txt_modal.Text;
-            tr_balance[0] = txt_modal.Text;
-            tr_balance[1] = "0";
-            tr_balance[2] = (Convert.ToInt64(txt_modal.Text) + Convert.ToDouble(balance)).ToString();
-            tr_balance[3] = "#" + DateTime.Parse(dpicker_tambah.Text).ToString("yyyy-MM-dd") + "#";
-            tr_balance[4] = this.member_id;
-            //MessageBox.Show(String.Join(",", tr_balance));
-            db.InsertTransaksi(tr_balance);
-            fm.LoadData();
+            
+            tr.Debet = "0";
+            tr.Balance = (Convert.ToDouble(txt_modal.Text) + Convert.ToDouble(balance) - Convert.ToDouble(this.tr.Kredit)).ToString();
+            tr.Sisa_tarik = (Convert.ToDouble(tr.Balance)/2).ToString();
+            
+            tr.Kredit = txt_modal.Text;
+            tr.Input_date = DateTime.Parse(dpicker_tambah.Text).ToString("yyyy-MM-dd");
+            tr.Member_id = this.mb.Id;
+            tr.Save();
+            f_detail.LoadData();
             f_master.LoadData();
             this.Dispose();
+        }
+
+        private void masked_event(object sender, EventArgs e)
+        {
+
+            txt_modal.Text = string.Format("{0:#,##0}", double.Parse(txt_modal.Text));
         }
     }
 }
