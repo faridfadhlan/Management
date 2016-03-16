@@ -91,5 +91,13 @@ namespace Management
                 balance = value;
             }
         }
+
+        public bool GenerateKredit()
+        {
+            bool sukses = false;
+            List<String[]> mb = (new Members()).Query("SELECT * FROM members WHERE join_type='Non Compound'");
+            
+            return sukses;
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Data.OleDb;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Management
 {
@@ -24,12 +25,13 @@ namespace Management
 
         public void InitBalance()
         {
-            db = new MyDB();
             
         }
 
         public void LoadData()
         {
+            //List<Members> mb = new List<Members>();
+            //MessageBox.Show(db.Select("SELECT * FROM members")[0][1]);
             try
             {
                 db = new MyDB();

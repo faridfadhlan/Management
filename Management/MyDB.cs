@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Data.OleDb;
 using System.Data;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Management
 {
@@ -13,17 +14,28 @@ namespace Management
         private OleDbCommand db_perintah;
         private OleDbDataAdapter db_adapter;
         private DataTable db_datatable;
+        public MyDB db = null;
         private string str_koneksi = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Admini\\Documents\\Visual Studio 2015\\Projects\\Management\\management.accdb";
         
         public MyDB()
         {
             try
             {
+                
                 db_koneksi = new OleDbConnection(str_koneksi);
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+            }
+        }
+
+        public void InitObject()
+        {
+            if (this.db == null)
+            {
+                this.db = new MyDB();
             }
         }
 
@@ -49,6 +61,40 @@ namespace Management
                 Console.WriteLine(e.ToString());
             }
             return db_datatable;
+        }
+
+        public List<String[]> Select(string query)
+        {
+            InitObject();
+            List<String[]> data = new List<String[]>(); 
+            OleDbDataReader reader = null;
+            try
+            {
+                db_koneksi.Open();
+                db_perintah = new OleDbCommand();
+                db_perintah.Connection = db_koneksi;
+                db_perintah.CommandType = CommandType.Text;
+                db_perintah.CommandText = query;
+                reader = db_perintah.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    String[] datarow = new String[reader.FieldCount];
+                    for (int i=0;i<reader.FieldCount;i++)
+                    {
+                        datarow[i] = reader.GetValue(i).ToString();
+                    }
+                    data.Add(datarow);
+                }
+                //MessageBox.Show(data[0][0]);
+                reader.Close();
+                db_koneksi.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            return data;
         }
 
         public ArrayList[] GetMemberTidakTarik()
@@ -476,6 +522,8 @@ namespace Management
                 MessageBox.Show(e.ToString());
             }
             return tr;
-        }  
+        }
+        
+          
     }
 }
