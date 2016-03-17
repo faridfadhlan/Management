@@ -24,7 +24,7 @@ namespace Management
 
         public void InitBalance()
         {
-            
+            (new Transaksi()).GenerateSisaPenarikan();
         }
 
         public void LoadData()

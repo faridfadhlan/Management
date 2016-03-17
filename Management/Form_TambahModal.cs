@@ -48,7 +48,6 @@ namespace Management
             tr.Debet = "0";
             tr.Balance = (Convert.ToDouble(txt_modal.Text) + Convert.ToDouble(balance) - Convert.ToDouble(this.tr.Kredit)).ToString();
             tr.Sisa_tarik = (Convert.ToDouble(tr.Balance)/2).ToString();
-            
             tr.Kredit = txt_modal.Text;
             tr.Input_date = DateTime.Parse(dpicker_tambah.Text).ToString("yyyy-MM-dd");
             tr.Member_id = this.mb.Id;

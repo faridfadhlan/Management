@@ -42,24 +42,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Management.exe" size="46592">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Management.exe" size="47616">
       <assemblyIdentity name="Management" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>rIV8WOzbJyWBLEzD38oH8AZip1s=</dsig:DigestValue>
+        <dsig:DigestValue>I9Q9EL3H/EeFfW7/O0Ouo+81SJk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Management.pdb" size="89600" writeableType="applicationData">
+  <file name="Management.pdb" size="91648" writeableType="applicationData">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>89ig0qHGnLSY29bYZTDvLz1saEQ=</dsig:DigestValue>
+      <dsig:DigestValue>qmiGLdikpekIbfaFVABQQIzSxjg=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

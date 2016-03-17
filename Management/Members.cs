@@ -201,5 +201,32 @@ namespace Management
             if (data.Count > 0) sisa = data.ElementAt(0)[0];
             return sisa;
         }
+
+        public Transaksi GetLastKredit(string member_id)
+        {
+            List<String[]> data = (new MyDB()).Select(
+                "SELECT * FROM transaksi_balance WHERE input_date IN (SELECT MAX(input_date) FROM transaksi_balance WHERE member_id=" + member_id + " AND kredit<>0) AND kredit<>0"
+                );
+            Transaksi tr = new Transaksi();
+            if(data.Count>0)
+            {
+                tr.Id = data.ElementAt(0)[0];
+                tr.Kredit = data.ElementAt(0)[1];
+                tr.Debet = data.ElementAt(0)[2];
+                tr.Sisa_tarik = data.ElementAt(0)[3];
+                tr.Balance = data.ElementAt(0)[4];
+                tr.Input_date = data.ElementAt(0)[5];
+                tr.Member_id = data.ElementAt(0)[6];
+            }
+            return tr;
+        }
+
+        public bool BisaTarik(string member_id)
+        {
+            bool bisa = false;
+            Transaksi tr = this.GetLastKredit(member_id);
+            string q = "select * from transaksi_balance where member_id="+member_id;
+            return bisa;
+        }
     }
 }

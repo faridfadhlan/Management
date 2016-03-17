@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Management
 {
@@ -113,6 +114,7 @@ namespace Management
                 query = "INSERT INTO transaksi_balance(kredit, debet, sisa_tarik, balance, input_date, member_id) VALUES ('" + this.Kredit + "','" + this.Debet + "','" + this.Sisa_tarik + "','" + this.Balance + "',#" + this.Input_date + "#,'" + this.Member_id + "')";
             else
                 query = "UPDATE transaksi_balance SET kredit='"+this.Kredit+"', debet='"+this.Debet+"', sisa_tarik='"+this.Sisa_tarik+"', balance='"+this.Balance+"', input_date=#"+this.Input_date+"# WHERE ID=" + this.Id;
+            //MessageBox.Show(query);
             return (new MyDB()).QueryNonSelect(query);
         }
 
@@ -141,12 +143,34 @@ namespace Management
             return tr;
         } 
 
-        public bool GenerateKredit()
+        public void GenerateSisaPenarikan()
         {
-            bool sukses = false;
-            List<String[]> mb = (new Members()).Query("SELECT * FROM members WHERE join_type='Non Compound'");
-            
-            return sukses;
+            string ts = DateTime.Now.Day.ToString();
+            string bs = DateTime.Now.Month.ToString();            
+            List<string[]> data = new List<string[]>();
+            data = (new MyDB()).Select("select member_id, max(input_date) from transaksi_balance where kredit <> 0 group by member_id having DatePart('m', max(input_date))<"+(Convert.ToDouble(bs)-1).ToString()+" AND DatePart('d', max(input_date))<="+ts);
+            if(data.Count>0)
+            {
+                Members mbs = new Members();
+                string balance;
+                string sisa;
+                string tgl_k;
+                for (int i = 0; i < data.Count; i++)
+                {
+                    DateTime sekarang = DateTime.Now;
+                    mbs.Id = data.ElementAt(i)[0];
+                    balance = mbs.GetBalance(mbs.Id);
+                    sisa = mbs.GetSisaPenarikan(mbs.Id);
+                    tgl_k = data.ElementAt(i)[1];
+                    this.Kredit = "0";
+                    this.Debet = "0";
+                    this.Sisa_tarik = (0.5 * Convert.ToDouble(balance) + Convert.ToDouble(sisa)).ToString();
+                    this.Balance = balance;
+                    this.Input_date = sekarang.ToString("yyyy") + "-" + sekarang.ToString("MM") + "-" + DateTime.Parse(tgl_k).ToString("dd");
+                    this.member_id = mbs.Id;
+                    this.Save();
+                }
+            }
         }
     }
 }

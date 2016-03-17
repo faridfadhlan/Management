@@ -29,3 +29,8 @@ C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\bin\x
 C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\bin\x86\Debug\Management.application
 C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.exe.manifest
 C:\Users\FARID\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.application
+C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\bin\x86\Debug\Management.exe.manifest
+C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\bin\x86\Debug\Management.application
+C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.TrustInfo.xml
+C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.exe.manifest
+C:\Users\Admini\Documents\Visual Studio 2015\Projects\Management\Management\obj\x86\Debug\Management.application
